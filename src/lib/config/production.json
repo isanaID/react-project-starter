@@ -1,0 +1,11 @@
+{
+  "env": {
+    "environment": "production",
+    "hostname": "https://react-resilient-app.netlify.app",
+    "apiBaseUrl": "https://randomuser.me/api",
+    "apiKey": "x-api-key",
+    "meta": {
+      "title": "React Resilient App"
+    }
+  }
+}
