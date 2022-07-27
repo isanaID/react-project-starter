@@ -1,6 +1,6 @@
 {
-  "name": "react-resilient-architecture",
-  "description": "Ongoing resilient Frontend architecture is meant to help you build production-grade projects using the ReactJS framework.",
+  "name": "react-project-starter",
+  "description": "React Project Starter",
   "keywords": [
     "ReactJs boilerplate",
     "Frontend Architecture"
@@ -12,17 +12,17 @@
     "npm": ">=6"
   },
   "author": {
-    "name": "Lucky Dewa Satria",
-    "email": "luckydewa123@gmail.com",
-    "url": "https://www.linkedin.com/in/lucky-dewa-satria/"
+    "name": "Wibisana Putra Setyanegara",
+    "email": "eizisana@gmail.com",
+    "url": "https://www.linkedin.com/in/isanawib/"
   },
   "bugs": {
-    "email": "luckydewa123@gmail.com",
-    "url": "https://github.com/lucky401/react-resilient-architecture/issues"
+    "email": "eizisana@gmail.com",
+    "url": "https://github.com/isanaID/react-project-starter/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lucky401/react-resilient-architecture.git"
+    "url": "git+https://github.com/isanaID/react-project-starter.git"
   },
   "scripts": {
     "start": "react-scripts start",
