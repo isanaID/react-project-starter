@@ -44,7 +44,7 @@ if (isNPXAvailable) {
 }
 
 var command =
-  'npx "https://gist.github.com/lucky401/cdd35cd15c0e17b3dfc21e6f09dba52b" -q';
+  'npx "https://gist.github.com/isanaID/9daa929949114a7e93d035356aa7f4a3" -q';
 
 console.log(
   color('subtitle', '      Running the following command: ' + command)
