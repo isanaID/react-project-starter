@@ -1,15 +1,16 @@
 import {AxiosResponse} from 'axios';
 
-import {Login} from '../constants';
+import client from 'lib/client';
+import {Login, AUTH_PROVIDER_CONFIG} from '../constants';
 
-import client from '../../client';
+const {endpoint} = AUTH_PROVIDER_CONFIG;
 
 function login({email, password}: Login): Promise<AxiosResponse<any, any>> {
-  return client.post('/login', {email, password});
+  return client.post(endpoint.login, {email, password});
 }
 
-async function logout(): Promise<AxiosResponse<any, any>> {
-  return client.get('/logout');
+function me(): Promise<AxiosResponse<any, any>> {
+  return client.get(endpoint.me);
 }
 
-export {login, logout};
+export {login, me};

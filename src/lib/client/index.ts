@@ -5,7 +5,6 @@
 import axios, {AxiosInstance} from 'axios';
 
 import handler from './handler';
-import {base64Decode} from '../security';
 import * as Storage from '../storage';
 
 import {TOKEN_STORAGE_KEY} from '../auth-provider/constants';
@@ -29,10 +28,9 @@ function createResource(): AxiosInstance {
       const token = Storage.getStorage(TOKEN_STORAGE_KEY);
 
       if (token) {
-        const decodedToken = base64Decode(token);
         if (config.headers) {
           // eslint-disable-next-line no-param-reassign
-          config.headers.Authorization = `Bearer ${decodedToken}`;
+          config.headers.Authorization = token;
         }
       }
 

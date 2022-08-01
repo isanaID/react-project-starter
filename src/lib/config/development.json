@@ -2,7 +2,7 @@
   "env": {
     "environment": "development",
     "hostname": "http://localhost:8080",
-    "apiBaseUrl": "https://randomuser.me/api",
+    "apiBaseUrl": "https://api.wishforhealth.id/v1",
     "apiKey": "x-api-key",
     "meta": {
       "title": "React Resilient App - development"

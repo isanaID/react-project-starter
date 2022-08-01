@@ -1,58 +1,76 @@
-import {useState, useEffect, useMemo} from 'react';
-
 import shallow from 'zustand/shallow';
+import {useNavigate} from 'react-router-dom';
+import {useEffect} from 'react';
+
+import {useAsync, useGetQuery, IUseGetQuery} from 'lib/client/hooks';
 
 import {useAuth} from './index';
 
 import * as authServices from '../services';
 
+import * as TYPES from '../constants';
 import {Login} from '../constants';
 
-type useLogin = [(payload: Login) => Promise<void>, string, string];
-
-type Status = 'idle' | 'fetching' | 'resolved' | 'rejected';
+type useLogin = [(payload: Login) => Promise<void>, string, string, any];
 
 export function useLogin(): useLogin {
-  const [status, setStatus] = useState<Status>('idle');
-  const [error, setError] = useState<any | null>(null);
+  const navigate = useNavigate();
+  const {execute, status, value, errorMessage, fieldErrors} = useAsync<
+    any,
+    Login
+  >(authServices.login);
   const [setAuth] = useAuth(state => [state.setAuth], shallow);
 
   useEffect(() => {
     if (status === 'resolved') {
-      setTimeout(() => {
-        setStatus('idle');
-      }, 1000);
-    }
-
-    if (status === 'rejected') {
-      setTimeout(() => {
-        setStatus('idle');
-      }, 10000);
+      setAuth(value.data);
+      navigate('/');
     }
   }, [status]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
-      if (error.response && error.response.data) {
-        return error.response.data.message;
-      }
-      return 'Something error';
-    }
-    return null;
-  }, [error]);
-
   async function login(payload: Login): Promise<void> {
-    setStatus('fetching');
-
     try {
-      const {data} = await authServices.login(payload);
-      await setAuth(data);
-      setStatus('resolved');
-    } catch (err: any) {
-      setStatus('rejected');
-      setError(err);
+      await execute(payload);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
     }
   }
 
-  return [login, status, errorMessage];
+  return [login, status, errorMessage, fieldErrors];
 }
+
+type useLogout = [() => void];
+
+export function useLogout(): useLogout {
+  const navigate = useNavigate();
+  const [clearSession] = useAuth(state => [state.clearSession], shallow);
+
+  function logout(): void {
+    clearSession();
+    navigate('/');
+  }
+
+  return [logout];
+}
+
+export const useProfile = (): IUseGetQuery => {
+  const [setUser] = useAuth(state => [state.setUser], shallow);
+
+  const {data, status, errorMessage, isIdle, refetch} = useGetQuery({
+    queryKey: TYPES.FETCH_PROFILE,
+    queryFn: async () => {
+      const response = await authServices.me();
+      setUser(response.data.data);
+      return response.data;
+    },
+  });
+
+  return {
+    data,
+    status,
+    errorMessage,
+    isIdle,
+    refetch,
+  };
+};

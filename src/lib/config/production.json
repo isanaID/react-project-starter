@@ -2,7 +2,7 @@
   "env": {
     "environment": "production",
     "hostname": "https://react-resilient-app.netlify.app",
-    "apiBaseUrl": "https://randomuser.me/api",
+    "apiBaseUrl": "https://api.wishforhealth.id/v1",
     "apiKey": "x-api-key",
     "meta": {
       "title": "React Resilient App"

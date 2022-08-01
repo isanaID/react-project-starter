@@ -1,39 +1,57 @@
 import {Suspense, lazy, useEffect} from 'react';
 import shallow from 'zustand/shallow';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  Routes,
+  Route,
+  useRoutes,
+} from 'react-router-dom';
 
-import {FullPageSpinner} from './common/components/full-page-spinner';
+import {useAuth} from 'lib/auth-provider/context';
+import {useProfile} from 'lib/auth-provider/context/hooks';
 
-import {useAuth} from './lib/auth-provider/context';
+import {FullPageSpinner} from 'common/components';
+
+const FullPageError = lazy(() => import('common/components/full-page-error'));
 
 const LoginModules = lazy(() => import('./modules/login'));
-
-function SecretPage({children}: {children: JSX.Element}): JSX.Element {
-  const navigate = useNavigate();
-  const [getAuth] = useAuth(state => [state.getAuth], shallow);
-
-  useEffect(() => {
-    const currentUser = getAuth();
-    if (!currentUser.token) {
-      navigate('/login');
-    }
-  }, [getAuth, navigate]);
-
-  return children;
-}
+const Home = lazy(() => import('./modules/home'));
+const Admin = lazy(() => import('./modules/admin'));
+const Company = lazy(() => import('./modules/company'));
+const Kiosk = lazy(() => import('./modules/kiosk'));
+const Fatmor = lazy(() => import('./modules/fatmor'));
 
 function App(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
+  const [getAuth] = useAuth(state => [state.getAuth], shallow);
+
+  const {refetch: getProfile} = useProfile();
 
   useEffect(() => {
     if (location.pathname === '/') {
-      navigate('/login');
+      navigate('/home');
     }
   }, [location, navigate]);
+
+  useEffect(() => {
+    const currentUser = getAuth();
+    if (currentUser.token) {
+      getProfile();
+    }
+  }, [getAuth, getProfile]);
+
   return (
     <Suspense fallback={<FullPageSpinner />}>
-      <LoginModules />
+      <Routes>
+        <Route path="/login/*" element={<LoginModules />} />
+        <Route path="/home/*" element={<Home />} />
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/company/*" element={<Company />} />
+        <Route path="/kiosk/*" element={<Kiosk />} />
+        <Route path="/fatmor/*" element={<Fatmor />} />
+      </Routes>
     </Suspense>
   );
 }

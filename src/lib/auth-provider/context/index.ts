@@ -19,6 +19,7 @@ interface AuthState {
 interface AuthActions {
   getAuth: () => AuthState;
   setAuth: (payload: {data: User; token: string}) => void;
+  setUser: (payload: User) => void;
   clearSession: () => void;
 }
 
@@ -26,10 +27,15 @@ interface authContext extends AuthState, AuthActions {}
 
 const stateDefault: AuthState = {
   user: {
-    id: '',
-    email: '',
-    name: '',
-    role: '',
+    _id: '',
+  email: '',
+  name: '',
+  role: '',
+  fullname: '',
+  phone: '',
+  isActive: false,
+  createAt: '',
+  updateAt:  '',
   },
   token: '',
   isAuth: false,
@@ -66,17 +72,26 @@ const actions = (
     return authState;
   },
 
-  setAuth: (payload: {data: User; token: string}) => {
+  setAuth: (payload: any) => {
     const token = payload.token.replace('Bearer ', '');
 
-    setUserPersistance(payload.data);
+    setUserPersistance(payload);
     setTokenPersistance(token);
 
     set(state => ({
       ...state,
-      user: {...payload.data},
+      user: {...payload},
       token,
       isAuth: true,
+    }));
+  },
+
+  setUser: (payload: any) => {
+    setUserPersistance(payload);
+
+    set(state => ({
+      ...state,
+      user: {...payload},
     }));
   },
 

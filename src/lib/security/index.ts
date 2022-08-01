@@ -1,9 +1,10 @@
+import { Buffer } from "buffer";
 /**
  * @description It encodes a string into base64.
  * @param str - The string to be encoded.
  * @returns A string.
  */
-export const base64Encode = (str: string): string => {
+ export const base64Encode = (str: string): string => {
   return Buffer.from(str).toString('base64');
 };
 
