@@ -21,6 +21,7 @@ const Admin = lazy(() => import('./modules/admin'));
 const Company = lazy(() => import('./modules/company'));
 const Kiosk = lazy(() => import('./modules/kiosk'));
 const Fatmor = lazy(() => import('./modules/fatmor'));
+const CompanyDetail = lazy(() => import('./modules/company-detail'));
 
 function App(): JSX.Element {
   const location = useLocation();
@@ -51,6 +52,7 @@ function App(): JSX.Element {
         <Route path="/company/*" element={<Company />} />
         <Route path="/kiosk/*" element={<Kiosk />} />
         <Route path="/fatmor/*" element={<Fatmor />} />
+        <Route path="/company-detail/:companyid/*" element={<CompanyDetail />} />
       </Routes>
     </Suspense>
   );

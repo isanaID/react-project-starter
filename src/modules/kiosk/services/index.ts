@@ -1,0 +1,36 @@
+import {AxiosResponse} from 'axios';
+
+import client from 'lib/client';
+
+import {ENDPOINT, RegisterKiosk, Assign, unAssign} from '../constants';
+
+function register(payload: RegisterKiosk): Promise<AxiosResponse<any, any>> {
+    return client.post(ENDPOINT.register, payload);
+  }
+
+function assign(payload: Assign): Promise<AxiosResponse<any, any>> {
+    return client.post(ENDPOINT.assign, payload);
+  }
+
+function UnAssign(payload: unAssign): Promise<AxiosResponse<any, any>> {
+    return client.post(ENDPOINT.unAssign, payload);
+  }
+
+function listDevice(arg: any): Promise<AxiosResponse<any, any>> {
+    return client.get(ENDPOINT.list, {
+      params: {
+        ...arg,
+      },
+    });
+  }
+
+  function remove(id: string): Promise<AxiosResponse<any, any>> {
+    return client.delete(ENDPOINT.remove, {
+      params: {
+        deviceId: id,
+      },
+    });
+  }
+
+
+export {register, assign, UnAssign, listDevice, remove};

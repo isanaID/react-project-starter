@@ -7,7 +7,7 @@ import {useAuth} from '../../lib/auth-provider/context';
 
 import Layout from '../../layouts/general';
 
-import {Login} from './views/login';
+import Login from './views/login';
 
 function Modules(): JSX.Element {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Modules(): JSX.Element {
   return (
     <Layout>
       <Routes>
-        <Route path="login" element={<Login />} />
+        <Route path="/" element={<Login />} />
       </Routes>
     </Layout>
   );
