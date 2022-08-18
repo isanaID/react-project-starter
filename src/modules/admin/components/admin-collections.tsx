@@ -66,6 +66,10 @@ function AdminCollections(): JSX.Element {
                 accessor: 'role',
               },
               {
+                Header: 'Email',
+                accessor: 'email',
+              },
+              {
                 Header: 'Company Name',
                 accessor: (row: any): string => row.companyId?.name,
               },
