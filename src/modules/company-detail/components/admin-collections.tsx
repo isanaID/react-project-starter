@@ -18,6 +18,7 @@ import {
   Icon
 } from '@chakra-ui/react';
 import { IoMdExit } from 'react-icons/io';
+import { AiOutlineCopy } from 'react-icons/ai';
 import shallow from 'zustand/shallow';
 import {useParams} from 'react-router-dom';
 import {DataTable, Pagination, ErrorAlert} from 'common/components';
@@ -27,15 +28,15 @@ import * as services from '../services';
 import {useListAdmin} from '../context/hooks';
 
 function AdminCollections(): JSX.Element {
-    const [companyId, setcompanyId] = useSummaryCompanyDetailState(
-        state => [state.companyId, state.setcompanyId],
-        shallow,
-      );
+    // const [companyId, setcompanyId] = useSummaryCompanyDetailState(
+    //     state => [state.companyId, state.setcompanyId],
+    //     shallow,
+    //   );
     const {companyid} = useParams();
 
-    const getCompanyId = (): void => {
-        setcompanyId(companyid);
-    };
+    // const getCompanyId = (): void => {
+    //     setcompanyId(companyid);
+    // };
     const LIMIT = 10;
 
     const [page, setPage] = useState(1);
@@ -49,7 +50,7 @@ function AdminCollections(): JSX.Element {
     } = useListAdmin({
         page,
         search,
-        companyId,
+        companyId : companyid,
         limit: LIMIT,
     });
     const toast = useToast();
@@ -64,7 +65,6 @@ function AdminCollections(): JSX.Element {
       };
 
       useEffect(() => {
-        getCompanyId();
         refetch();
       }, [
         page,
@@ -86,6 +86,10 @@ function AdminCollections(): JSX.Element {
               {
                 Header: 'Role',
                 accessor: 'role',
+              },
+              {
+                Header: 'Email',
+                accessor: 'email',
               },
               {
                 Header: 'Company Name',
@@ -149,6 +153,27 @@ function AdminCollections(): JSX.Element {
 
     return (
         <Box>
+          <Flex
+          direction={{base: 'column', md: 'row'}}
+          justify="start"
+          align="end"
+          my={5}
+        >
+            <Text>
+              ID Company : {companyid}
+            </Text>
+            <AiOutlineCopy onClick={() => {
+              navigator.clipboard.writeText(`${companyid}`);
+              toast({
+                title: 'Success',
+                description: 'ID Company has been copied to clipboard',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+                position: 'top',
+              });
+              }} size="1.5rem" color="gray.600" />
+            </Flex>
       <Box
         borderColor="gray.200"
         borderWidth="1px"

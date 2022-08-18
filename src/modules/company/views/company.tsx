@@ -19,8 +19,8 @@ function List(): JSX.Element {
     <Box>
       <NavBreadcrumb
         items={[
-          {text: 'User', to: '/'},
-          {text: 'Patient', to: '/patient', isCurrentPage: true},
+          {text: 'Company', to: '/'},
+          {text: 'List', to: '/company', isCurrentPage: true},
         ]}
       />
       <Tabs
