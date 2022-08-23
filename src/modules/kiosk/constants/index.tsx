@@ -59,6 +59,7 @@ export const ENDPOINT = {
   unAssign: '/dashboard-internal/device-kiosk/unassign-company',
   list: '/dashboard-internal/device-kiosk/get-list',
   remove: '/dashboard-internal/device-kiosk/',
+  update: '/dashboard-internal/device-kiosk',
 };
 
 /** ************************* For Actions *************************************** */
@@ -66,3 +67,4 @@ export const POST_REGISTER = `${NAMESPACE}_POST_REGISTER`;
 export const POST_ASSIGN = `${NAMESPACE}_POST_ASSIGN`;
 export const POST_UNASSIGN = `${NAMESPACE}_POST_UNASSIGN`;
 export const FETCH_LIST = `${NAMESPACE}_FETCH_LIST`;
+export const UPDATE_KIOSK = `${NAMESPACE}_UPDATE_KIOSK`;
