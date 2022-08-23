@@ -168,6 +168,13 @@ export function useRemove({
   return {mutate, status, errorMessage, fieldErrors};
 }
 
+type useUpdate = {
+  mutate: any;
+  status: string;
+  fieldErrors: any;
+  errorMessage: string;
+};
+
 export function useUpdate ({
   onSuccess,
   onError,
@@ -176,7 +183,7 @@ export function useUpdate ({
   onSuccess?: () => void;
   onError?: (err: any) => void;
   onMutate?: (payload: any) => void;
-}): any {
+}): useUpdate {
   const queryClient = useQueryClient();
 
   const {mutate, error, status} = useMutation(services.update, {

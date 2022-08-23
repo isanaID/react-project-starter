@@ -51,7 +51,7 @@ import {
     const isLoading = update.status === 'loading';
   
     const errors = {
-      ...update.errors,
+      ...update.fieldErrors,
     };
   
     useEffect(() => {
