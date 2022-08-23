@@ -1,5 +1,5 @@
 import {useEffect, useState, lazy, useMemo} from 'react';
-import {SearchIcon} from '@chakra-ui/icons';
+import {SearchIcon, SettingsIcon} from '@chakra-ui/icons';
 import {
   Box,
   Text,
@@ -23,6 +23,7 @@ import {BiTrashAlt} from 'react-icons/bi';
 import {useListDevice} from '../context/hooks';
 
 const DialogDelete = lazy(() => import('./dialog-delete'));
+const DialogForm = lazy(() => import('./dialog-edit'));
 
 function Actions({
   rows,
@@ -42,6 +43,29 @@ function Actions({
         onClick={() => onOpenDialogDeleteDevice(original)}
       >
         <Icon as={BiTrashAlt} color="red.600" />
+      </Button>
+    </HStack>
+  );
+}
+
+function ActionsUpdate({
+  rows,
+  onOpenDialogFormUpdate,
+}: {
+  rows: any;
+  onOpenDialogFormUpdate: (deviceId: any) => void;
+}): JSX.Element {
+  const {
+    row: {original},
+  } = rows;
+  return (
+    <HStack gap={1}>
+      <Button
+        size="xs"
+        variant="outline"
+        onClick={() => onOpenDialogFormUpdate(original)}
+      >
+        <SettingsIcon color="blue.600" />
       </Button>
     </HStack>
   );
@@ -71,14 +95,31 @@ function DeviceCollections(): JSX.Element {
       onClose: onCloseDialogDelete,
     } = useDisclosure();
 
+    const {
+      isOpen: isOpenDialogForm,
+      onOpen: onOpenDialogForm,
+      onClose: onCloseDialogForm,
+    } = useDisclosure();
+
     const onOpenDialogDeleteDevice = (device: any): void => {
       setSelectedDevice(device);
       onOpenDialogDelete();
     };
+    
 
     const onCloseDialog = (): void => {
       setSelectedDevice(null);
       onCloseDialogDelete();
+    };
+
+    const onOpenDialogFormUpdate = (deviceId: any): void => {
+      setSelectedDevice(deviceId);
+      onOpenDialogForm();
+    };
+
+    const onCloseDialogUpdate = (): void => {
+      setSelectedDevice(null);
+      onCloseDialogForm();
     };
 
     const handleSearchChange = (
@@ -133,10 +174,16 @@ function DeviceCollections(): JSX.Element {
                 Header: 'Actions',
                 // eslint-disable-next-line react/no-unstable-nested-components
                 Cell: (rows: any) => (
+                  <HStack gap={1}>
                   <Actions
                     rows={rows}
                     onOpenDialogDeleteDevice={onOpenDialogDeleteDevice}
                   />
+                  <ActionsUpdate
+                    rows={rows}
+                    onOpenDialogFormUpdate={onOpenDialogFormUpdate}
+                  />
+                  </HStack>
                 ),
               },
             ],
@@ -150,6 +197,13 @@ function DeviceCollections(): JSX.Element {
             selectedDevice={selectedDevice}
             isOpen={isOpenDialogDelete}
             onClose={onCloseDialog}
+          />
+        )}
+        {isOpenDialogForm && (
+          <DialogForm
+            deviceId={selectedDevice}
+            isOpen={isOpenDialogForm}
+            onClose={onCloseDialogUpdate}
           />
         )}
       <Box

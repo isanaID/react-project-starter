@@ -167,3 +167,58 @@ export function useRemove({
 
   return {mutate, status, errorMessage, fieldErrors};
 }
+
+type useUpdate = {
+  mutate: any;
+  status: string;
+  fieldErrors: any;
+  errorMessage: string;
+};
+
+export function useUpdate ({
+  onSuccess,
+  onError,
+  onMutate,
+}: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onMutate?: (payload: any) => void;
+}): useUpdate {
+  const queryClient = useQueryClient();
+
+  const {mutate, error, status} = useMutation(services.update, {
+    onMutate: async payload => {
+      // check if function
+      if (onMutate && typeof onMutate === 'function') onMutate(payload);
+    },
+    onError: async (err: any) => {
+      if (onError && typeof onError === 'function') onError(err);
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries(TYPES.FETCH_LIST);
+      if (onSuccess && typeof onSuccess === 'function') onSuccess();
+    },
+  });
+
+  const errorMessage = useMemo(() => {
+    if (error) {
+      if (error.response && error.response.data) {
+        return error.response.data.message;
+      }
+      return 'Something error';
+    }
+    return null;
+  } , [error]);
+
+  const fieldErrors = useMemo(() => {
+    if (error) {
+      if (error.response && error.response.data) {
+        return error.response.data.errors;
+      }
+      return {};
+    }
+    return null;
+  } , [error]);
+
+  return {mutate, status, errorMessage, fieldErrors};
+}

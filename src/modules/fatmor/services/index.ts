@@ -32,4 +32,8 @@ function listDevice(arg: any): Promise<AxiosResponse<any, any>> {
     });
   }
 
-export {register, assign, UnAssign, listDevice, remove};
+  function update(payload: any): Promise<AxiosResponse<any, any>> {
+    return client.put(ENDPOINT.update, payload);
+  }
+
+export {register, assign, UnAssign, listDevice, remove, update};

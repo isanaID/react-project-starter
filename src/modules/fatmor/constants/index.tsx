@@ -74,6 +74,7 @@ export const ENDPOINT = {
   unAssign: '/dashboard-internal/device-fatmor/unassign-company',
   list: 'dashboard-internal/device-fatmor/get-list',
   remove: '/dashboard-internal/device-fatmor/',
+  update: '/dashboard-internal/device-fatmor',
 };
 
 /** ************************* For Actions *************************************** */
@@ -81,3 +82,4 @@ export const POST_REGISTER = `${NAMESPACE}_POST_REGISTER`;
 export const POST_ASSIGN = `${NAMESPACE}_POST_ASSIGN`;
 export const POST_UNASSIGN = `${NAMESPACE}_POST_UNASSIGN`;
 export const FETCH_LIST = `${NAMESPACE}_FETCH_LIST`;
+export const UPDATE_FATMOR = `${NAMESPACE}_UPDATE_FATMOR`;
