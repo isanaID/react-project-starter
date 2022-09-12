@@ -10,11 +10,14 @@ import {
   Flex,
   Text,
   Link,
+  Select,
+  FormControl,
+  FormLabel,
+  FormErrorMessage
 } from '@chakra-ui/react';
 import {Formik, Form, Field} from 'formik';
 import {useQueryClient} from 'react-query';
-
-import {TextField, Select} from '../../../lib/components';
+import {useListCompany, useListFatmor} from 'common/context/hooks';
 
 import {
     INITIAL_VALUES_UNASSIGN_FATMOR,
@@ -30,6 +33,7 @@ function UnAssign(): JSX.Element {
   const [user] = useAuth(state => [state.user], shallow);
 
   const queryClient = useQueryClient();
+  const listFatmor = useListFatmor();
 
   const toast = useToast();
 
@@ -77,31 +81,42 @@ function UnAssign(): JSX.Element {
               gap="20px 52px"
             >
               <GridItem>
-                <Field name="deviceId">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    // eslint-disable-next-line react/no-unused-prop-types
-                    field: any;
-                    // eslint-disable-next-line react/no-unused-prop-types
-                    form: any;
-                  }) => (
-                    <TextField
-                      id="deviceId"
-                      label="Device ID"
-                      placeholder="Device ID"
-                      type="text"
-                      errorMessage={
-                        form.touched.deviceId &&
-                        (form.errors.deviceId || fieldErrors?.deviceId)
-                      }
-                      inputProps={{...field}}
-                      disabled={isSubmitting}
-                    />
-                  )}
-                </Field>
-              </GridItem>
+                  <Field name="deviceId">
+                    {({
+                      field,
+                      form,
+                    }: {
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      field: any;
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      form: any;
+                    }) => (
+                      /* eslint-disable */
+                      <>
+                      <FormControl>
+                      <FormLabel htmlFor="deviceId">Device</FormLabel>
+                      <Select
+                        required
+                        id='deviceId'
+                        placeholder="Select Device"
+                        isDisabled={isSubmitting}
+                        {...field}
+                      >
+                        {listFatmor?.data?.data?.docs?.map((type: any) => (
+                          <option key={type._id} value={type._id}>
+                            {type.name}
+                          </option>
+                        ))}
+                      </Select>
+                      <FormErrorMessage>{form.touched.deviceId &&
+                          (form.errors.deviceId || fieldErrors?.deviceId)}
+                      </FormErrorMessage>
+                      </FormControl>
+                      </>
+                      /* eslint-enable */
+                    )}
+                  </Field>
+                </GridItem>
               <GridItem mt="auto">
                 <Button
                   size="lg"

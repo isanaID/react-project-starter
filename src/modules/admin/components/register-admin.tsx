@@ -9,11 +9,17 @@ import {
     Flex,
     Text,
     Link,
+    Select,
+    FormErrorMessage,
+    FormLabel,
+    FormControl
   } from '@chakra-ui/react';
+  import { useEffect } from 'react';
   import {Formik, Form, Field} from 'formik';
   import {useQueryClient} from 'react-query';
+  import {useListCompany} from 'common/context/hooks';
   
-  import {TextField, Select} from '../../../lib/components';
+  import {TextField} from '../../../lib/components';
   
   import {
     INITIAL_VALUES_REGISTER_ADMIN,
@@ -27,6 +33,13 @@ import {
     const queryClient = useQueryClient();
   
     const toast = useToast();
+    const listCompany = useListCompany();
+
+    // useEffect(() => {
+    //   if (listCompany?.status === 'success') {
+    //     setCategory(listCompany?.data?.data?.docs[0]?.value);
+    //   }
+    // }, []);
   
     const submitRegister = async (values: any, actions: any): Promise<void> => {
       try {
@@ -160,18 +173,29 @@ import {
                       // eslint-disable-next-line react/no-unused-prop-types
                       form: any;
                     }) => (
-                      <TextField
-                        id="companyId"
-                        label="Company ID"
-                        placeholder="companyId"
-                        type="text"
-                        errorMessage={
-                          form.touched.companyId &&
-                          (form.errors.companyId || fieldErrors?.companyId)
-                        }
-                        inputProps={{...field}}
-                        disabled={isSubmitting}
-                      />
+                      /* eslint-disable */
+                      <>
+                      <FormControl>
+                      <FormLabel htmlFor="companyId">Company</FormLabel>
+                      <Select
+                        required
+                        id='companyId'
+                        placeholder="Select Company"
+                        isDisabled={isSubmitting}
+                        {...field}
+                      >
+                        {listCompany?.data?.data?.docs?.map((type: any) => (
+                          <option key={type._id} value={type._id}>
+                            {type.name}
+                          </option>
+                        ))}
+                      </Select>
+                      <FormErrorMessage>{form.touched.companyId &&
+                          (form.errors.companyId || fieldErrors?.companyId)}
+                      </FormErrorMessage>
+                      </FormControl>
+                      </>
+                      /* eslint-enable */
                     )}
                   </Field>
                 </GridItem>

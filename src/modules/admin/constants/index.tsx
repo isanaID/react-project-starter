@@ -22,7 +22,7 @@ export const RegisterAdminSchema = Yup.object().shape({
   fullname: Yup.string().required('Name must be filled'),
   email: Yup.string().email().required('Email must be filled'),
   phone: Yup.string().required('Phone must be filled'),
-  companyId: Yup.string().required('Company is required'),
+  companyId: Yup.string(),
 });
 
 export const ENDPOINT = {

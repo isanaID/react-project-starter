@@ -10,11 +10,14 @@ import {
   Flex,
   Text,
   Link,
+  Select,
+  FormControl,
+  FormLabel,
+  FormErrorMessage
 } from '@chakra-ui/react';
 import {Formik, Form, Field} from 'formik';
 import {useQueryClient} from 'react-query';
-
-import {TextField, Select} from '../../../lib/components';
+import {useListCompany, useListFatmor} from 'common/context/hooks';
 
 import {
     INITIAL_VALUES_ASSIGN_FATMOR,
@@ -32,6 +35,8 @@ function Assign(): JSX.Element {
   const queryClient = useQueryClient();
 
   const toast = useToast();
+  const listCompany = useListCompany();
+  const listFatmor = useListFatmor();
 
   const submitRegister = async (values: any, actions: any): Promise<void> => {
     try {
@@ -77,57 +82,79 @@ function Assign(): JSX.Element {
               gap="20px 52px"
             >
               <GridItem>
-                <Field name="companyId">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    // eslint-disable-next-line react/no-unused-prop-types
-                    field: any;
-                    // eslint-disable-next-line react/no-unused-prop-types
-                    form: any;
-                  }) => (
-                    <TextField
-                      id="companyId"
-                      label="Company ID"
-                      placeholder="Company ID"
-                      type="text"
-                      errorMessage={
-                        form.touched.companyId &&
-                        (form.errors.companyId || fieldErrors?.companyId)
-                      }
-                      inputProps={{...field}}
-                      disabled={isSubmitting}
-                    />
-                  )}
-                </Field>
-              </GridItem>
-              <GridItem>
-                <Field name="deviceId">
-                  {({
-                    field,
-                    form,
-                  }: {
-                    // eslint-disable-next-line react/no-unused-prop-types
-                    field: any;
-                    // eslint-disable-next-line react/no-unused-prop-types
-                    form: any;
-                  }) => (
-                    <TextField
-                      id="deviceId"
-                      label="Device ID"
-                      placeholder="Device ID"
-                      type="text"
-                      errorMessage={
-                        form.touched.deviceId &&
-                        (form.errors.deviceId || fieldErrors?.deviceId)
-                      }
-                      inputProps={{...field}}
-                      disabled={isSubmitting}
-                    />
-                  )}
-                </Field>
-              </GridItem>
+                  <Field name="companyId">
+                    {({
+                      field,
+                      form,
+                    }: {
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      field: any;
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      form: any;
+                    }) => (
+                      /* eslint-disable */
+                      <>
+                      <FormControl>
+                      <FormLabel htmlFor="companyId">Company</FormLabel>
+                      <Select
+                        required
+                        id='companyId'
+                        placeholder="Select Company"
+                        isDisabled={isSubmitting}
+                        {...field}
+                      >
+                        {listCompany?.data?.data?.docs?.map((type: any) => (
+                          <option key={type._id} value={type._id}>
+                            {type.name}
+                          </option>
+                        ))}
+                      </Select>
+                      <FormErrorMessage>{form.touched.companyId &&
+                          (form.errors.companyId || fieldErrors?.companyId)}
+                      </FormErrorMessage>
+                      </FormControl>
+                      </>
+                      /* eslint-enable */
+                    )}
+                  </Field>
+                </GridItem>
+                <GridItem>
+                  <Field name="deviceId">
+                    {({
+                      field,
+                      form,
+                    }: {
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      field: any;
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      form: any;
+                    }) => (
+                      /* eslint-disable */
+                      <>
+                      <FormControl>
+                      <FormLabel htmlFor="deviceId">Device</FormLabel>
+                      <Select
+                        required
+                        id='deviceId'
+                        placeholder="Select Device"
+                        isDisabled={isSubmitting}
+                        {...field}
+                      >
+                        {listFatmor?.data?.data?.docs?.map((type: any) => (
+                          <option key={type._id} value={type._id}>
+                            {type.name}
+                          </option>
+                        ))}
+                      </Select>
+                      <FormErrorMessage>{form.touched.deviceId &&
+                          (form.errors.deviceId || fieldErrors?.deviceId)}
+                      </FormErrorMessage>
+                      </FormControl>
+                      </>
+                      /* eslint-enable */
+                    )}
+                  </Field>
+                </GridItem>
               <GridItem mt="auto">
                 <Button
                   size="lg"
