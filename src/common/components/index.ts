@@ -7,6 +7,7 @@ import Pagination from "./pagination";
 import TableSkeleton from "./table-skeleton";
 import DataTable from "./data-table";
 import CompanyTable from "./company-table";
+import DialogFallback from "./dialog-fallback";
 
 export {
     FullPageSpinner,
@@ -17,6 +18,7 @@ export {
     Pagination,
     TableSkeleton,
     DataTable,
-    CompanyTable
+    CompanyTable,
+    DialogFallback,
     
 }

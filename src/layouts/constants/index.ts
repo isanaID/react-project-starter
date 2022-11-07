@@ -22,6 +22,11 @@ export const MENU_ITEMS = [
         to: '/company',
       },
       {
+        title: 'Log Activity',
+        icon: MdDashboard,
+        to: '/log-activity',
+      },
+      {
         title: 'Health Kiosk',
         icon: MdDashboard,
         to: '/kiosk',

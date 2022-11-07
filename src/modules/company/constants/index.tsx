@@ -10,6 +10,7 @@ export interface RegisterCompany {
   website: string;
   tax: string;
   companyCode: string;
+  accountType: string;
 }
 
 export const INITIAL_VALUES_REGISTER_COMPANY: RegisterCompany = {
@@ -20,6 +21,7 @@ export const INITIAL_VALUES_REGISTER_COMPANY: RegisterCompany = {
     website: '',
     tax: '',
     companyCode: '',
+    accountType: '',
 };
 
 export const RegisterCompanySchema = Yup.object().shape({
@@ -30,6 +32,7 @@ export const RegisterCompanySchema = Yup.object().shape({
   website: Yup.string().required('Website must be filled'),
   tax: Yup.string().required('Tax must be filled'),
   companyCode: Yup.string().optional(),
+  accountType: Yup.string().required('Account type must be filled'),
 });
 
 export const ENDPOINT = {

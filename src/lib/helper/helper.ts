@@ -14,3 +14,15 @@ export const getValueByKey = (
 ): any => {
   return get(obj, key, defaultValue);
 };
+
+export const formatDateTime = (date: string): string => {
+  const dateTime = new Date(date);
+  return Intl.DateTimeFormat('id-ID', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  }).format(dateTime);
+};

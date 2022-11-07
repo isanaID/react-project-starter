@@ -9,11 +9,15 @@ import {
     Flex,
     Text,
     Link,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    Select
   } from '@chakra-ui/react';
   import {Formik, Form, Field} from 'formik';
   import {useQueryClient} from 'react-query';
   
-  import {TextField, Select} from '../../../lib/components';
+  import {TextField} from '../../../lib/components';
   
   import {
     INITIAL_VALUES_REGISTER_COMPANY,
@@ -250,6 +254,44 @@ import {
                         inputProps={{...field}}
                         disabled={isSubmitting}
                       />
+                    )}
+                  </Field>
+                </GridItem>
+                <GridItem>
+                  <Field name="accountType">
+                    {({
+                      field,
+                      form,
+                    }: {
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      field: any;
+                      // eslint-disable-next-line react/no-unused-prop-types
+                      form: any;
+                    }) => (
+                      /* eslint-disable */
+                      <>
+                      <FormControl>
+                      <FormLabel htmlFor="accountType">Company Type</FormLabel>
+                      <Select
+                        required
+                        id='accountType'
+                        placeholder="Select Company Type"
+                        isDisabled={isSubmitting}
+                        {...field}
+                      >
+                          <option value="premium">
+                            Premium
+                          </option>
+                          <option value="freemium">
+                            Freemium
+                          </option>
+                      </Select>
+                      <FormErrorMessage>{form.touched.accountType &&
+                          (form.errors.accountType || fieldErrors?.accountType)}
+                      </FormErrorMessage>
+                      </FormControl>
+                      </>
+                      /* eslint-enable */
                     )}
                   </Field>
                 </GridItem>
